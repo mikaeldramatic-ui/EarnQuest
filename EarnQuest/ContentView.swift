@@ -8,14 +8,17 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @StateObject var viewModel = ChoreViewModel()
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        List(viewModel.chores, id: \.id) {chore in
+            Text(chore.title)
+            Text("\(chore.dailyReward) kr")
         }
-        .padding()
+        .onAppear {
+            viewModel.fetchChores()
+        }
     }
 }
 

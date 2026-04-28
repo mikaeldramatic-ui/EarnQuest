@@ -24,12 +24,14 @@ class FirestoreService {
                 let dailyReward = data["dailyReward"] as? Int ?? 0
                 
                 let chore = Chore(
+                    
                     id: document.documentID,
                     title: title,
                     dailyReward: dailyReward
                 )
-                completion(chores)
+                chores.append(chore)
             }
+            completion(chores)
             
         }
     }
