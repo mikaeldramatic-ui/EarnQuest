@@ -35,4 +35,13 @@ class FirestoreService {
             
         }
     }
+    
+    func saveCompletion(choreId: String, userId: String) {
+        let data: [String: Any] = [
+            "choreId": choreId,
+            "userId": userId,
+            "date": Date()
+        ]
+        db.collection("completions").addDocument(data: data)
+    }
 }

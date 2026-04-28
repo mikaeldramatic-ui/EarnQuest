@@ -10,6 +10,7 @@ import Combine
 class ChoreViewModel: ObservableObject {
     
     @Published var chores: [Chore] = []
+    @Published var completedToday: Set<String> = []
     
     private let service = FirestoreService()
     
@@ -20,5 +21,10 @@ class ChoreViewModel: ObservableObject {
                 
             }
         }
+    }
+    
+    func completeChore(chore: Chore) {
+        completedToday.insert(chore.id)
+        service.saveCompletion(choreId: chore.id, userId: "testUser")
     }
 }
