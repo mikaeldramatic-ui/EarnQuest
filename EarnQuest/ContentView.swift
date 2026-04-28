@@ -16,26 +16,34 @@ struct ContentView: View {
     }
     
     var body: some View {
-        List(viewModel.chores, id: \.id) {chore in
-            HStack {
-                VStack(alignment: .leading) {
-                    Text(chore.title)
-                    Text("\(chore.dailyReward) kr")
-                        .font(.subheadline)
-                        .foregroundColor(.gray)
-                }
-
-                Spacer()
-
-                Image(systemName: viewModel.completedToday.contains(chore.id) ? "checkmark.circle.fill" : "circle")
-                    .onTapGesture {
-                        viewModel.completeChore(chore: chore)
+        NavigationStack {
+            List(viewModel.visibleChores, id: \.id) { chore in
+                HStack {
+                    VStack(alignment: .leading) {
+                        Text(chore.title)
+                        Text("\(chore.dailyReward) kr")
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
                     }
+                    
+                    Spacer()
+                    
+                    Image(systemName: viewModel.selectedChoreIDs.contains(chore.id) ? "checkmark.circle.fill" : "circle")
+                        .onTapGesture {
+                            viewModel.toogleChore(chore: chore)
+                        }
+                }
             }
-        }
-        .onAppear {
-            if viewModel.chores.isEmpty {
-                viewModel.fetchChores()
+            .navigationTitle("Chores")
+            .toolbar {
+                Button("Klar") {
+                    viewModel.submitChores()
+                }
+            }
+            .onAppear {
+                if viewModel.chores.isEmpty {
+                    viewModel.fetchChores()
+                }
             }
         }
     }

@@ -44,4 +44,34 @@ class FirestoreService {
         ]
         db.collection("completions").addDocument(data: data)
     }
+
+    func getCompletedChoreIDs(
+        userId: String,
+        for date: Date = Date(),
+        completion: @escaping (Set<String>) -> Void
+    ) {
+        let calendar = Calendar.current
+        let startOfDay = calendar.startOfDay(for: date)
+        guard let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay) else {
+            completion([])
+            return
+        }
+
+        db.collection("completions")
+            .whereField("userId", isEqualTo: userId)
+            .whereField("date", isGreaterThanOrEqualTo: startOfDay)
+            .whereField("date", isLessThan: endOfDay)
+            .getDocuments { snapshot, error in
+                guard let documents = snapshot?.documents else {
+                    completion([])
+                    return
+                }
+
+                let choreIDs = Set(documents.compactMap { document in
+                    document.data()["choreId"] as? String
+                })
+
+                completion(choreIDs)
+            }
+    }
 }
