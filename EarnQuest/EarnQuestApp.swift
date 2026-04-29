@@ -16,7 +16,7 @@ struct EarnQuestApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RootView()
         }
     }
 }

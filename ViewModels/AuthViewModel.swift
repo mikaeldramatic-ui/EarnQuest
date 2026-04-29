@@ -89,4 +89,15 @@ class AuthViewModel: ObservableObject {
             }
         }
     }
+    
+    func signOut() {
+        do {
+            try Auth.auth().signOut()
+            currentUser = nil
+            currentProfile = nil
+            errorMessage = ""
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+    }
 }

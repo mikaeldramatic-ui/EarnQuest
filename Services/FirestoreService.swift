@@ -36,6 +36,15 @@ class FirestoreService {
         }
     }
     
+    func addChore(title: String, dailyReward: Int) {
+        let data: [String: Any] = [
+            "title": title,
+            "dailyReward": dailyReward
+        ]
+        
+        db.collection("chores").addDocument(data: data)
+    }
+    
     func saveCompletion(choreId: String, userId: String) {
         let data: [String: Any] = [
             "choreId": choreId,

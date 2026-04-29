@@ -19,7 +19,7 @@ struct RootView: View {
         } else if let profile = authViewModel.currentProfile {
             switch profile.role {
             case .admin:
-                Text("Visa AdminView här")
+                AdminView(authViewModel: authViewModel)
             case .child:
                 ContentView()
             }
