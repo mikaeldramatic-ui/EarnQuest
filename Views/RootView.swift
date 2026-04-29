@@ -1,5 +1,5 @@
 //
-//  Root​View.swift
+//  RootView.swift
 //  EarnQuest
 //
 //  Created by Mikael Engvall on 2026-04-29.
@@ -15,7 +15,7 @@ struct RootView: View {
         if authViewModel.isLoading {
             ProgressView("Laddar...")
         } else if authViewModel.currentUser == nil {
-            Text("Visa LoginView här")
+            LoginView(authViewModel: authViewModel)
         } else if let profile = authViewModel.currentProfile {
             switch profile.role {
             case .admin:
