@@ -12,6 +12,7 @@
 		6524DAEE2F9FEEEB00E90254 /* FirestoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6524DAED2F9FEEEB00E90254 /* FirestoreService.swift */; };
 		6524DAF02F9FF20700E90254 /* Chore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6524DAEF2F9FF20700E90254 /* Chore.swift */; };
 		656F34F52FA33B510021DCB7 /* ChildView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656F34F42FA33B510021DCB7 /* ChildView.swift */; };
+		656F34F72FA35DAD0021DCB7 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656F34F62FA35DAD0021DCB7 /* SignUpView.swift */; };
 		656F4FD72FA1F58100131252 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656F4FD62FA1F58100131252 /* RootView.swift */; };
 		656F4FD92FA1FA5D00131252 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656F4FD82FA1FA5D00131252 /* LoginView.swift */; };
 		656F4FDB2FA2061100131252 /* AdminView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656F4FDA2FA2061100131252 /* AdminView.swift */; };
@@ -26,6 +27,7 @@
 		6524DAED2F9FEEEB00E90254 /* FirestoreService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreService.swift; sourceTree = "<group>"; };
 		6524DAEF2F9FF20700E90254 /* Chore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chore.swift; sourceTree = "<group>"; };
 		656F34F42FA33B510021DCB7 /* ChildView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChildView.swift; sourceTree = "<group>"; };
+		656F34F62FA35DAD0021DCB7 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		656F4FD62FA1F58100131252 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		656F4FD82FA1FA5D00131252 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		656F4FDA2FA2061100131252 /* AdminView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminView.swift; sourceTree = "<group>"; };
@@ -103,6 +105,7 @@
 				656F4FD82FA1FA5D00131252 /* LoginView.swift */,
 				656F4FDA2FA2061100131252 /* AdminView.swift */,
 				656F34F42FA33B510021DCB7 /* ChildView.swift */,
+				656F34F62FA35DAD0021DCB7 /* SignUpView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -207,6 +210,7 @@
 				6576B0F72FA0D13500B53349 /* AuthViewModel.swift in Sources */,
 				656F34F52FA33B510021DCB7 /* ChildView.swift in Sources */,
 				656F4FD72FA1F58100131252 /* RootView.swift in Sources */,
+				656F34F72FA35DAD0021DCB7 /* SignUpView.swift in Sources */,
 				6576B0EB2FA09B5E00B53349 /* Completion.swift in Sources */,
 				6576B0E92FA087F700B53349 /* ChoreViewModel.swift in Sources */,
 				656F4FD92FA1FA5D00131252 /* LoginView.swift in Sources */,
