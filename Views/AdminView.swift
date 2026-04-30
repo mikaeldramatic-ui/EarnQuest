@@ -19,7 +19,7 @@ struct AdminView: View {
             VStack(spacing: 16) {
                 Text("Skapa en chore")
                     .font(.headline)
-
+                
                 TextField("Titel på chore", text: $title)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                 
@@ -34,20 +34,21 @@ struct AdminView: View {
                     service.addChore(title: title, dailyReward: reward)
                     title = ""
                     dailyReward = ""
-                    
                 }
                 .disabled(title.isEmpty || dailyReward.isEmpty)
-            }
-            .navigationTitle("Admin")
-            .toolbar {
+                
+                Spacer()
+                
+                Divider()
+                
                 Button("Logga ut") {
                     authViewModel.signOut()
                 }
+                .padding()
             }
+            .navigationTitle("Admin")
         }
-            
     }
-        
 }
 #Preview {
     let authViewModel: AuthViewModel = {
@@ -62,5 +63,6 @@ struct AdminView: View {
         return viewModel
     }()
 
-    return AdminView(authViewModel: authViewModel)
+    AdminView(authViewModel: authViewModel)
 }
+
