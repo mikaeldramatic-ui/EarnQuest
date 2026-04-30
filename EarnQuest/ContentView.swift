@@ -9,9 +9,9 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @StateObject private var viewModel = ChoreViewModel()
+    @StateObject private var viewModel = ChoreViewModel(userId: "previewUser")
     
-    init(viewModel: ChoreViewModel = ChoreViewModel()) {
+    init(viewModel: ChoreViewModel = ChoreViewModel(userId: "previewUser")) {
         _viewModel = StateObject(wrappedValue: viewModel)
     }
     
@@ -47,14 +47,4 @@ struct ContentView: View {
             }
         }
     }
-}
-
-#Preview {
-    let vm = ChoreViewModel()
-    vm.chores = [
-        Chore(id: "1", title: "Plocka upp kläder", dailyReward: 3),
-        Chore(id: "2", title: "Bädda sängen", dailyReward: 5)
-    ]
-    
-    return ContentView(viewModel: vm)
 }

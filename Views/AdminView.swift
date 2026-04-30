@@ -49,3 +49,18 @@ struct AdminView: View {
     }
         
 }
+#Preview {
+    let authViewModel: AuthViewModel = {
+        let viewModel = AuthViewModel()
+        viewModel.currentProfile = UserProfile(
+            uid: "previewAdmin",
+            email: "admin@example.com",
+            displayName: "Admin",
+            role: .admin,
+            familyId: "family_1"
+        )
+        return viewModel
+    }()
+
+    return AdminView(authViewModel: authViewModel)
+}

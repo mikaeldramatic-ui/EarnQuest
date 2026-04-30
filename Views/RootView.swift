@@ -21,7 +21,7 @@ struct RootView: View {
             case .admin:
                 AdminView(authViewModel: authViewModel)
             case .child:
-                ContentView()
+                ChildView(authViewModel: authViewModel)
             }
         }
         else {

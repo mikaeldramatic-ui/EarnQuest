@@ -8,8 +8,12 @@ import SwiftUI
 import Combine
 
 class ChoreViewModel: ObservableObject {
-    private let userId = "testUser"
-
+    private let userId: String
+    
+    init (userId: String) {
+        self.userId = userId
+    }
+    
     @Published var chores: [Chore] = []
     @Published var completedToday: Set<String> = []
     @Published var selectedChoreIDs: Set<String> = []
