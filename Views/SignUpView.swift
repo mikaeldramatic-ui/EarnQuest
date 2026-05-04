@@ -67,7 +67,7 @@ struct SignUpView: View {
             
             Spacer()
             
-            Button("Skapa konto") {
+            Button(authViewModel.isLoading ? "Laddar..." : "Skapa konto") {
                 authViewModel.signUp(
                     email: email,
                     password: password,
@@ -76,7 +76,7 @@ struct SignUpView: View {
                 )
                 
             }
-            .disabled(!isFormValid)
+            .disabled(!isFormValid || authViewModel.isLoading)
         }
         .padding()
     }

@@ -86,6 +86,8 @@ class AuthViewModel: ObservableObject {
                 )
                 
                 self.currentProfile = profile
+                NotificationManager.shared.requestAuthorization { granted in
+                print("Notifieringar beviljade efter att ha loggats in \(granted)") }
             }
         }
     }

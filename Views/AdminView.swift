@@ -32,6 +32,13 @@ struct AdminView: View {
                         return
                     }
                     service.addChore(title: title, dailyReward: reward)
+                    
+#if targetEnvironment(simulator)
+NotificationManager.shared.scheduleNow(
+    title: "Nya sysslor",
+    body: "Du har fått 1 ny syssla."
+)
+#endif
                     title = ""
                     dailyReward = ""
                 }

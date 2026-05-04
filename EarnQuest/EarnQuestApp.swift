@@ -6,6 +6,8 @@
 //
 import Firebase
 import SwiftUI
+import UserNotifications
+import FirebaseMessaging
 
 @main
 struct EarnQuestApp: App {

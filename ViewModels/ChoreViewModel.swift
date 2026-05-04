@@ -49,6 +49,17 @@ class ChoreViewModel: ObservableObject {
         }
 
         completedToday.formUnion(selectedChoreIDs)
+        let count = selectedChoreIDs.count
         selectedChoreIDs.removeAll()
+        
+
+#if targetEnvironment(simulator) // Denna rad kan man ta bort för riktiga enheter
+NotificationManager.shared.scheduleNow(
+    title: "Chores klara",
+    body: "Barnet har slutfört \(count) syssla/sysslor."
+)
+#endif
+        
     }
 }
+
