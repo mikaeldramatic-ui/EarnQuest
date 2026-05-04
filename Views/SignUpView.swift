@@ -68,6 +68,12 @@ struct SignUpView: View {
             Spacer()
             
             Button("Skapa konto") {
+                authViewModel.signUp(
+                    email: email,
+                    password: password,
+                    displayName: displayName,
+                    role: selectedRole
+                )
                 
             }
             .disabled(!isFormValid)

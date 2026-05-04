@@ -90,6 +90,66 @@ class AuthViewModel: ObservableObject {
         }
     }
     
+    func signUp(email: String, password: String, displayName: String, role: Role) {
+        isLoading = true
+        errorMessage = ""
+        
+        Auth.auth().createUser(withEmail: email, password: password) { result, error in
+            DispatchQueue.main.async {
+                
+                if let error = error {
+                    self.isLoading = false
+                    self.errorMessage = error.localizedDescription
+                    return
+                }
+                
+                guard let user = result?.user else {
+                    self.isLoading = false
+                    self.errorMessage = "Kunde inte skapa användaren."
+                    return
+                }
+                
+                let familyId = "family_1"
+                let roleString: String
+                
+                switch role {
+                case .admin:
+                    roleString = "admin"
+                case .child:
+                    roleString = "child"
+                }
+                
+                let data: [String: Any] = [
+                    "email": email,
+                    "displayName": displayName,
+                    "role": roleString,
+                    "familyId": familyId
+                ]
+                
+                self.db.collection("users").document(user.uid).setData(data) { error in
+                    DispatchQueue.main.async {
+                        self.isLoading = false
+                        
+                        if let error = error {
+                            self.errorMessage = error.localizedDescription
+                            return
+                        }
+                        
+                        let profile = UserProfile (
+                            uid: user.uid,
+                            email: email,
+                            displayName: displayName,
+                            role: role,
+                            familyId: familyId
+                        )
+                        self.currentUser = user
+                        self.currentProfile = profile
+                    }
+                }
+            }
+        }
+    }
+    
     func signOut() {
         do {
             try Auth.auth().signOut()
