@@ -7,7 +7,7 @@
 import SwiftUI
 import Combine
 
-class ChoreViewModel: ObservableObject {
+final class ChoreViewModel: ObservableObject {
     private let userId: String
     
     init (userId: String) {
@@ -24,17 +24,15 @@ class ChoreViewModel: ObservableObject {
         chores.filter { !completedToday.contains($0.id) }
     }
 
-    func fetchChores() {
+    func fetchChores(completion: (() -> Void)? = nil) {
         service.getChores { chores in
-            self.service.getCompletedChoreIDs(userId: self.userId) { completedChoreIDs in
                 DispatchQueue.main.async {
                     self.chores = chores
-                    self.completedToday = completedChoreIDs
+                    completion?()
                 }
             }
         }
-    }
-
+    
     func toogleChore(chore: Chore) {
         if selectedChoreIDs.contains(chore.id) {
             selectedChoreIDs.remove(chore.id)
@@ -42,23 +40,10 @@ class ChoreViewModel: ObservableObject {
             selectedChoreIDs.insert(chore.id)
         }
     }
-
+    
     func submitChores() {
-        for choreID in selectedChoreIDs {
-            service.saveCompletion(choreId: choreID, userId: userId)
-        }
-
         completedToday.formUnion(selectedChoreIDs)
-        let count = selectedChoreIDs.count
         selectedChoreIDs.removeAll()
-        
-
-#if targetEnvironment(simulator) // Denna rad kan man ta bort för riktiga enheter
-NotificationManager.shared.scheduleNow(
-    title: "Chores klara",
-    body: "Barnet har slutfört \(count) syssla/sysslor."
-)
-#endif
         
     }
 }

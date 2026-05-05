@@ -10,5 +10,6 @@ import Foundation
 struct Completion {
     var id: String
     var choreId: String
+    var userId: String
     var date: Date
 }

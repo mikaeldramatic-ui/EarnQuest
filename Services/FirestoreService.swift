@@ -83,4 +83,34 @@ class FirestoreService {
                 completion(choreIDs)
             }
     }
+    
+    func getCompletions(completion: @escaping ([Completion]) -> Void) {
+        db.collection("completions").getDocuments { snapshot, error in
+            guard let documents = snapshot?.documents else {
+                completion([])
+                return
+            }
+            
+            let completions = documents.compactMap { doc -> Completion? in
+                let data = doc.data()
+            
+                guard
+                    let choreId = data ["choreId"] as? String,
+                    let userId = data["userId"] as? String,
+                    let timestamp = data["date"] as? Timestamp
+                else {
+                    return nil
+                }
+                
+                return Completion(
+                    id: doc.documentID,
+                    choreId: choreId,
+                    userId: userId,
+                    date: timestamp.dateValue()
+                )
+            }
+            
+            completion(completions)
+        }
+    }
 }

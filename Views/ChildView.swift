@@ -46,6 +46,11 @@ struct ChildView: View {
                 
                 Divider()
                 
+                NavigationLink("Visa veckostatistik") {
+                    WeeklySummaryView(userId: authViewModel.currentProfile?.uid ?? "")
+                }
+
+                
                 Button("Logga ut") {
                     authViewModel.signOut()
                 }
@@ -57,14 +62,16 @@ struct ChildView: View {
                     viewModel.submitChores()
                 }
             }
-                .onAppear {
-                    if viewModel.chores.isEmpty {
-                        viewModel.fetchChores()
-                    }
+            
+            .onAppear {
+                if viewModel.chores.isEmpty {
+                    viewModel.fetchChores()
                 }
             }
         }
     }
+    
+}
 
 
 #Preview {
