@@ -84,8 +84,14 @@ class FirestoreService {
             }
     }
     
-    func getCompletions(completion: @escaping ([Completion]) -> Void) {
-        db.collection("completions").getDocuments { snapshot, error in
+    func getCompletions(
+        userId: String,
+        completion: @escaping ([Completion]) -> Void
+    ){
+        db.collection("completions")
+            .whereField("userId", isEqualTo: userId)
+            .getDocuments { snapshot, error in
+                
             guard let documents = snapshot?.documents else {
                 completion([])
                 return

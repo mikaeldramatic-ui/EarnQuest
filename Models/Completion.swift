@@ -7,7 +7,7 @@
 import SwiftUI
 import Foundation
 
-struct Completion {
+struct Completion: Identifiable {
     var id: String
     var choreId: String
     var userId: String

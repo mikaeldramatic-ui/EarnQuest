@@ -19,7 +19,7 @@ final class WeeklySummaryViewModel : ObservableObject {
     }
     
     func fetchWeeklyEarnings(chores: [Chore]) {
-        service.getCompletions { completions in
+        service.getCompletions(userId: userId) { completions in
         
             let calendar = Calendar.current
             let today = Date()
