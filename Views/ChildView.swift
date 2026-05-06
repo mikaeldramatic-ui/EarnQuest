@@ -8,87 +8,125 @@
 import SwiftUI
 
 struct ChildView: View {
+    
     @ObservedObject var authViewModel: AuthViewModel
-    @StateObject private var viewModel: ChoreViewModel
-    
-    init(authViewModel: AuthViewModel) {
-        self.authViewModel = authViewModel
-        _viewModel = StateObject(
-            wrappedValue: ChoreViewModel(userId: authViewModel.currentProfile?.uid ?? "")
-        )
-    }
-    
-    init(authViewModel: AuthViewModel, viewModel: ChoreViewModel) {
-        self.authViewModel = authViewModel
-        _viewModel = StateObject(wrappedValue: viewModel)
-    }
     
     var body: some View {
+        
         NavigationStack {
-            VStack(spacing: 0) {
-                List(viewModel.visibleChores, id: \.id) { chore in
-                    HStack {
-                        VStack(alignment: .leading) {
-                            Text(chore.title)
-                            Text("\(chore.dailyReward) kr")
-                                .font(.subheadline)
+            AppBackground {
+                VStack(spacing: 24) {
+                    
+                    Text("Barn Vy")
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                    
+                    DashboardCard(backgroundColor: AppColors.infoCard) {
+                        
+                        VStack(alignment: .leading, spacing: 12) {
+                            
+                            Text("Barns pågående sysslor")
+                                .font(.headline)
+                            
+                            Divider()
+                            
+                            Text("2 sysslor väntar")
+                            
+                            Text("Senaste aktivitet: Städat badrum")
+                                .font(.caption)
                                 .foregroundColor(.gray)
                         }
-                        
-                        Spacer()
-                        
-                        Image(systemName: viewModel.selectedChoreIDs.contains(chore.id) ? "checkmark.circle.fill" : "circle")
-                            .onTapGesture {
-                                viewModel.toogleChore(chore: chore)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding()
+                    }
+                    
+                    HStack(spacing: 16) {
+                        NavigationLink {
+                            ChoreListView(authViewModel: authViewModel)
+                        } label: {
+                            DashboardCard(
+                                backgroundColor: AppColors.actionCard
+                            ) {
+                                
+                                VStack(spacing: 12) {
+                                    
+                                    Image(systemName: "square.and.pencil")
+                                        .font(.largeTitle)
+                                    
+                                    Text("Se avklarade sysslor")
+                                        .fontWeight(.medium)
+                                }
+                                .frame(maxWidth: .infinity)
+                                .frame(height: 140)
                             }
+                        }
+                        .foregroundColor(.black)
+                        
+                        NavigationLink {
+                            
+                            WeeklySummaryView(userId: "testUser")
+                            
+                        } label: {
+                            
+                            DashboardCard(
+                                backgroundColor: AppColors.infoCard2
+                            ) {
+                                
+                                VStack(spacing: 12) {
+                                    
+                                    Image(systemName: "chart.bar.fill")
+                                        .font(.largeTitle)
+                                    
+                                    Text("Statistik")
+                                        .fontWeight(.medium)
+                                }
+                                .frame(maxWidth: .infinity)
+                                .frame(height: 140)
+                            }
+                        }
+                        .foregroundColor(.black)
+                    }
+                    
+                    
+                    Spacer()
+                    
+                    Button {
+                        authViewModel.signOut()
+                        
+                    } label: {
+                        
+                        Text("Logga ut")
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(AppColors.logout)
+                            .foregroundColor(.white)
+                            .cornerRadius(12)
                     }
                 }
-                
-                Divider()
-                
-                NavigationLink("Visa veckostatistik") {
-                    WeeklySummaryView(userId: authViewModel.currentProfile?.uid ?? "")
-                }
-
-                
-                Button("Logga ut") {
-                    authViewModel.signOut()
-                }
-                .padding()
-            }
-            .navigationTitle("Chores")
-            .toolbar {
-                Button("Klar") {
-                    viewModel.submitChores()
-                }
-            }
-            
-            .onAppear {
-                if viewModel.chores.isEmpty {
-                    viewModel.fetchChores()
-                }
+                .padding(.horizontal)
+                .padding(.top, 40)
             }
         }
     }
-    
 }
 
 
 #Preview {
-    let authViewModel = AuthViewModel()
-    authViewModel.currentProfile = UserProfile(
-        uid: "previewUser",
-        email: "child@example.com",
-        displayName: "Micke",
-        role: .child,
-        familyId: "family_1"
-    )
-
-    let choreViewModel = ChoreViewModel(userId: "previewUser")
-    choreViewModel.chores = [
-        Chore(id: "1", title: "Plocka upp kläder", dailyReward: 3),
-        Chore(id: "2", title: "Bädda sängen", dailyReward: 5)
-    ]
-
-    return ChildView(authViewModel: authViewModel, viewModel: choreViewModel)
+    
+    let authViewModel: AuthViewModel = {
+        
+        let viewModel = AuthViewModel()
+        
+        viewModel.currentProfile = UserProfile(
+            uid: "previewAdmin",
+            email: "admin@example.com",
+            displayName: "Admin",
+            role: .admin,
+            familyId: "family_1"
+        )
+        
+        return viewModel
+    }()
+    
+    return AdminView(authViewModel: authViewModel)
 }

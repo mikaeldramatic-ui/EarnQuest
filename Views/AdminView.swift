@@ -1,90 +1,115 @@
 import SwiftUI
 
 struct AdminView: View {
-    @ObservedObject var authViewModel: AuthViewModel
-    private let service = FirestoreService()
     
-    @State private var draftChores: [(title: String, reward: Int)] = []
-    @State private var title = ""
-    @State private var dailyReward = ""
+    @ObservedObject var authViewModel: AuthViewModel
     
     var body: some View {
+        
         NavigationStack {
-            VStack(spacing: 16) {
-                
-                Text("Skapa chores")
-                    .font(.headline)
-                
-                TextField("Titel på chore", text: $title)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                
-                TextField("Daglig belöning", text: $dailyReward)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .keyboardType(.numberPad)
-                
-                Button("Lägg till chore") {
-                    guard let reward = Int(dailyReward) else { return }
+            AppBackground {
+                VStack(spacing: 24) {
                     
-                    draftChores.append((title: title, reward: reward))
+                    Text("Admin Vy")
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
                     
-                    title = ""
-                    dailyReward = ""
-                }
-                .disabled(title.isEmpty || dailyReward.isEmpty)
-                
-                if !draftChores.isEmpty {
-                    List {
-                        ForEach(draftChores.indices, id: \.self) { index in
-                            HStack {
-                                Text(draftChores[index].title)
-                                Spacer()
-                                Text("\(draftChores[index].reward) kr")
+                    DashboardCard(backgroundColor: AppColors.infoCard) {
+                        
+                        VStack(alignment: .leading, spacing: 12) {
+                            
+                            Text("Childs pågående sysslor")
+                                .font(.headline)
+                            
+                            Divider()
+                            
+                            Text("2 sysslor väntar")
+                            
+                            Text("Senaste aktivitet: Städat badrum")
+                                .font(.caption)
+                                .foregroundColor(.gray)
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding()
+                    }
+                    
+                    HStack(spacing: 16) {
+                        NavigationLink {
+                            CreateChoreView(authViewModel: authViewModel)
+                        } label: {
+                            DashboardCard(
+                                backgroundColor: AppColors.actionCard
+                            ) {
+                                
+                                VStack(spacing: 12) {
+                                    
+                                    Image(systemName: "square.and.pencil")
+                                        .font(.largeTitle)
+                                    
+                                    Text("Skapa sysslor")
+                                        .fontWeight(.medium)
+                                }
+                                .frame(maxWidth: .infinity)
+                                .frame(height: 140)
                             }
                         }
-                        .onDelete { indexSet in
-                            draftChores.remove(atOffsets: indexSet)
+                        .foregroundColor(.black)
+                        
+                        NavigationLink {
+                            
+                            WeeklySummaryView(userId: "testUser")
+                            
+                        } label: {
+                            
+                            DashboardCard(
+                                backgroundColor: AppColors.infoCard2
+                            ) {
+                                
+                                VStack(spacing: 12) {
+                                    
+                                    Image(systemName: "chart.bar.fill")
+                                        .font(.largeTitle)
+                                    
+                                    Text("Statistik")
+                                        .fontWeight(.medium)
+                                }
+                                .frame(maxWidth: .infinity)
+                                .frame(height: 140)
+                            }
                         }
-                    }
-                    .frame(height: 200)
-                }
-                
-                Button("Skicka alla chores") {
-                    for chore in draftChores {
-                        service.addChore(
-                            title: chore.title,
-                            dailyReward: chore.reward
-                        )
+                        .foregroundColor(.black)
                     }
                     
-#if targetEnvironment(simulator)
-                    NotificationManager.shared.scheduleNow(
-                        title: "Nya sysslor",
-                        body: "Du har fått \(draftChores.count) nya sysslor."
-                    )
-#endif
                     
-                    draftChores.removeAll()
+                    Spacer()
+                    
+                    Button {
+                        authViewModel.signOut()
+                        
+                    } label: {
+                        
+                        Text("Logga ut")
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(AppColors.logout)
+                            .foregroundColor(.white)
+                            .cornerRadius(12)
+                    }
                 }
-                .disabled(draftChores.isEmpty)
-                
-                Spacer()
-                
-                Divider()
-                
-                Button("Logga ut") {
-                    authViewModel.signOut()
-                }
-                .padding()
+                .padding(.horizontal)
+                .padding(.top, 40)
             }
-            .padding()
-            .navigationTitle("Admin")
         }
     }
 }
 
+
 #Preview {
+    
     let authViewModel: AuthViewModel = {
+        
         let viewModel = AuthViewModel()
+        
         viewModel.currentProfile = UserProfile(
             uid: "previewAdmin",
             email: "admin@example.com",
@@ -92,8 +117,9 @@ struct AdminView: View {
             role: .admin,
             familyId: "family_1"
         )
+        
         return viewModel
     }()
-
-    AdminView(authViewModel: authViewModel)
+    
+    return AdminView(authViewModel: authViewModel)
 }

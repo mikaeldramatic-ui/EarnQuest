@@ -22,6 +22,8 @@
 		657688452FAB1BAB002E2ACA /* DashboardCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657688442FAB1BAB002E2ACA /* DashboardCard.swift */; };
 		657688472FAB1E3B002E2ACA /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657688462FAB1E3B002E2ACA /* Color+Extensions.swift */; };
 		657688492FAB20B0002E2ACA /* AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657688482FAB20B0002E2ACA /* AppColors.swift */; };
+		6576884B2FAB5224002E2ACA /* CreateChoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6576884A2FAB5224002E2ACA /* CreateChoreView.swift */; };
+		6576884D2FAB56A1002E2ACA /* ChoreListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6576884C2FAB56A1002E2ACA /* ChoreListView.swift */; };
 		6576B0E92FA087F700B53349 /* ChoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6576B0E82FA087F700B53349 /* ChoreViewModel.swift */; };
 		6576B0EB2FA09B5E00B53349 /* Completion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6576B0EA2FA09B5E00B53349 /* Completion.swift */; };
 		6576B0ED2FA0CF6F00B53349 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6576B0EC2FA0CF6F00B53349 /* UserProfile.swift */; };
@@ -45,6 +47,8 @@
 		657688442FAB1BAB002E2ACA /* DashboardCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardCard.swift; sourceTree = "<group>"; };
 		657688462FAB1E3B002E2ACA /* Color+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extensions.swift"; sourceTree = "<group>"; };
 		657688482FAB20B0002E2ACA /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
+		6576884A2FAB5224002E2ACA /* CreateChoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateChoreView.swift; sourceTree = "<group>"; };
+		6576884C2FAB56A1002E2ACA /* ChoreListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoreListView.swift; sourceTree = "<group>"; };
 		6576B0E82FA087F700B53349 /* ChoreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoreViewModel.swift; sourceTree = "<group>"; };
 		6576B0EA2FA09B5E00B53349 /* Completion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Completion.swift; sourceTree = "<group>"; };
 		6576B0EC2FA0CF6F00B53349 /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
@@ -126,6 +130,8 @@
 				656F34F42FA33B510021DCB7 /* ChildView.swift */,
 				656F34F62FA35DAD0021DCB7 /* SignUpView.swift */,
 				65632D152FA9D1CB0089D1DF /* WeeklySummaryView.swift */,
+				6576884A2FAB5224002E2ACA /* CreateChoreView.swift */,
+				6576884C2FAB56A1002E2ACA /* ChoreListView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -254,10 +260,12 @@
 				656F4FD72FA1F58100131252 /* RootView.swift in Sources */,
 				656F34F72FA35DAD0021DCB7 /* SignUpView.swift in Sources */,
 				6576B0EB2FA09B5E00B53349 /* Completion.swift in Sources */,
+				6576884D2FAB56A1002E2ACA /* ChoreListView.swift in Sources */,
 				6576B0E92FA087F700B53349 /* ChoreViewModel.swift in Sources */,
 				657688492FAB20B0002E2ACA /* AppColors.swift in Sources */,
 				65632D162FA9D1CB0089D1DF /* WeeklySummaryView.swift in Sources */,
 				657688452FAB1BAB002E2ACA /* DashboardCard.swift in Sources */,
+				6576884B2FAB5224002E2ACA /* CreateChoreView.swift in Sources */,
 				6594D9072FA89A9000014085 /* NotificationManager.swift in Sources */,
 				657688472FAB1E3B002E2ACA /* Color+Extensions.swift in Sources */,
 				656F4FD92FA1FA5D00131252 /* LoginView.swift in Sources */,
