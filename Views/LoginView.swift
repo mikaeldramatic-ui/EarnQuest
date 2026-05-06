@@ -14,55 +14,66 @@ struct LoginView: View {
     
     var body: some View {
         NavigationStack {
-            VStack {
-                Spacer()
-                
-                VStack(spacing: 16) {
-                    Text("Logga in")
-                        .font(.title)
+            AppBackground {
+                VStack {
                     
-                    TextField("E-post", text: $email)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .textInputAutocapitalization(.never)
-                        .autocorrectionDisabled()
-                    
-                    
-                    SecureField("Lösenord", text: $password)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                    
-                    
-                    if !authViewModel.errorMessage.isEmpty {
-                        Text(authViewModel.errorMessage)
-                            .foregroundColor(.red)
-                            .font(.caption)
+                    DashboardCard(backgroundColor: AppColors.actionCard) {
+                        VStack(spacing: 24) {
+                            Text("EarnQuest")
+                                .font(.largeTitle)
+                                .fontWeight(.bold)
+                            
+                            TextField("E-post", text: $email)
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                                .textInputAutocapitalization(.never)
+                                .autocorrectionDisabled()
+                            
+                            
+                            SecureField("Lösenord", text: $password)
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                            
+                            
+                            if !authViewModel.errorMessage.isEmpty {
+                                Text(authViewModel.errorMessage)
+                                    .foregroundColor(.red)
+                                    .font(.caption)
+                            }
+                            
+                            Button {
+                                authViewModel.signIn(email: email, password: password)
+                            } label: {
+                                Text("Logga in")
+                                    .frame(maxWidth: .infinity)
+                                    .padding()
+                                    .background(AppColors.infoCard)
+                                    .cornerRadius(12)
+                                    .foregroundColor(.black)
+                            }
+                            .disabled(authViewModel.isLoading || email.isEmpty || password.isEmpty)
+                        }
+                        .padding()
                     }
-                    
-                    Button("Logga in") {
-                        authViewModel.signIn(email: email, password: password)
-                    }
-                    .disabled(authViewModel.isLoading || email.isEmpty || password.isEmpty)
-                    .padding()
-                    
-                }
-                .padding()
-                
-                Spacer()
-                
-                VStack(spacing: 8) {
-                    Text("Har du inget konto?")
-                    NavigationLink("Skapa konto") {
-                        SignUpView(authViewModel: authViewModel)
+                    Spacer()
+                        
+                        DashboardCard(backgroundColor: AppColors.infoCard2) {
+                            VStack(spacing: 8) {
+                                Text("Har du inget konto?")
+                                NavigationLink("Skapa konto") {
+                                    SignUpView(authViewModel: authViewModel)
+                                }
+                                .foregroundColor(.black)
+                            }
+                            .padding()
+                        }
                         
                     }
                 }
             }
-            .padding()
         }
     }
-}
-
 
 #Preview {
     let authViewModel = AuthViewModel()
     LoginView(authViewModel: authViewModel)
 }
+

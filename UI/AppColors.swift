@@ -10,7 +10,8 @@ import SwiftUI
 struct AppColors {
     
     static let background = Color(hex: "81A6C6")
-    static let infoCard = Color(hex: "AACDDC")
-    static let actionCard = Color(hex: "F3E3D0")
+    static let infoCard = Color(hex: "F3E3D0")
+    static let actionCard = Color(hex: "AACDDC")
     static let logout = Color(hex: "DC7575")
+    static let infoCard2 = Color(hex: "D2C4B4")
 }

@@ -16,10 +16,11 @@ struct AppBackground<Content: View>: View {
     
     var body: some View {
         ZStack {
-            Color.blue.opacity(0.6)
+            AppColors.background
                 .ignoresSafeArea()
             
             content
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
     }
 }
