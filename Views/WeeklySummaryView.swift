@@ -21,23 +21,72 @@ struct WeeklySummaryView: View {
     }
     
     var body: some View {
-        VStack(spacing: 20) {
-            
-            Text("Veckopeng")
-                .font(.title)
-            
-            Text("\(viewModel.totalEarnings) kr")
-                .font(.largeTitle)
-                .bold()
-            
-            Spacer()
-        }
-        .onAppear {
-            choreViewModel.fetchChores {
-                viewModel.fetchWeeklyEarnings(chores: choreViewModel.chores)
+        
+        NavigationStack {
+            AppBackground {
+                VStack(spacing: 24) {
+                    
+                    Text("Veckostatistik")
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+    
+                    DashboardCard(backgroundColor: AppColors.infoCard) {
+                        VStack(spacing: 16) {
+                            
+                            Text("Veckopeng")
+                                .font(.headline)
+                            
+                            Text("\(viewModel.totalEarnings) kr")
+                                .font(.system(size: 52, weight: .bold))
+                            
+                            Text("Intjänat senaste 7 dagarna")
+                                .foregroundColor(.gray)
+                                .font(.caption)
+                        }
+                        .padding()
+                    }
+
+                    DashboardCard(backgroundColor: AppColors.infoCard2) {
+                        VStack(spacing: 12) {
+                            
+                            Image(systemName: "star.fill")
+                                .font(.largeTitle)
+                                .foregroundColor(.yellow)
+                            
+                            
+                            Text("Bra jobbat!")
+                                .font(.title2)
+                                .fontWeight(.bold)
+                            
+                            
+                            Text(
+                                "Du har gjort klart flera sysslor denna vecka."
+                            )
+                            .multilineTextAlignment(.center)
+                            .foregroundColor(.gray)
+                        }
+                        .padding()
+                    }
+                    
+                    
+                    Spacer()
+                }
+                .padding(.horizontal)
+                .padding(.top, 40)
             }
+            .onAppear {
+                
+                choreViewModel.fetchChores()
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    
+                    viewModel.fetchWeeklyEarnings(
+                        chores: choreViewModel.chores
+                    )
+                }
             }
         }
+    }
     }
 
 #Preview {
