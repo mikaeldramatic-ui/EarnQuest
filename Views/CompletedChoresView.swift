@@ -106,7 +106,9 @@ struct CompletedChoresView: View {
                 ) { completions in
                     
                     DispatchQueue.main.async {
-                        self.completions = completions
+                        self.completions = completions.sorted {
+                            $0.date > $1.date
+                        }
                     }
                 }
             }

@@ -44,13 +44,13 @@ struct ChildView: View {
                                 if choreViewModel.visibleChores.isEmpty {
                                     
                                     Text(
-                                        "\(authViewModel.currentProfile?.displayName ?? "Barn") har inga pågående sysslor"
+                                        "Du har inga pågående sysslor"
                                     )
                                     .font(.headline)
                                     
                                 } else {
                                     Text(
-                                        "\(authViewModel.currentProfile?.displayName ?? "Barn") har pågående sysslor"
+                                        "Du har pågående sysslor"
                                     )
                                     .font(.headline)
                                 }
@@ -112,7 +112,7 @@ struct ChildView: View {
                         
                         NavigationLink {
                             
-                            WeeklySummaryView(userId: "testUser")
+                            WeeklySummaryView(userId: authViewModel.currentProfile?.uid ?? "")
                             
                         } label: {
                             

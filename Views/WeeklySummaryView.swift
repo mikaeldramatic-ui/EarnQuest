@@ -5,6 +5,8 @@
 //  Created by Mikael Engvall on 2026-05-05.
 //
 import SwiftUI
+import Charts
+
 
 @MainActor
 struct WeeklySummaryView: View {
@@ -47,27 +49,48 @@ struct WeeklySummaryView: View {
                     }
 
                     DashboardCard(backgroundColor: AppColors.infoCard2) {
-                        VStack(spacing: 12) {
+                        
+                        VStack(spacing: 16) {
                             
-                            Image(systemName: "star.fill")
-                                .font(.largeTitle)
-                                .foregroundColor(.yellow)
+                            Image(systemName: "flame.fill")
+                                .font(.system(size: 42))
+                                .foregroundColor(.orange)
                             
+                            Text("\(viewModel.streak) dagar")
+                                .font(.system(size: 42, weight: .bold))
                             
-                            Text("Bra jobbat!")
-                                .font(.title2)
-                                .fontWeight(.bold)
-                            
+                            Text("Nuvarande streak")
+                                .font(.headline)
                             
                             Text(
-                                "Du har gjort klart flera sysslor denna vecka."
+                                viewModel.streak == 0
+                                ? "Ingen aktiv streak"
+                                : "Fortsätt så här!"
                             )
-                            .multilineTextAlignment(.center)
                             .foregroundColor(.gray)
+                            .font(.subheadline)
                         }
                         .padding()
                     }
+                    .frame(height: 260)
                     
+                    DashboardCard(backgroundColor: AppColors.actionCard) {
+                        VStack(alignment: .leading, spacing: 16) {
+
+                            Text("Veckoöversikt")
+                                .font(.headline)
+                            
+                            Chart(viewModel.weeklyChartData) { item in
+                            
+                                BarMark(
+                                    x: .value("Dag", item.day),
+                                    y: .value("Kr", item.amount)
+                                )
+                            }
+                            .frame(height: 220)
+                        }
+                        .padding()
+                    }
                     
                     Spacer()
                 }

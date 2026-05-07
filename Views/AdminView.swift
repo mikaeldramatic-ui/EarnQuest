@@ -1,10 +1,13 @@
 import SwiftUI
 
+private let service = FirestoreService()
+
 struct AdminView: View {
     
     @ObservedObject var authViewModel: AuthViewModel
     @StateObject private var choreViewModel: ChoreViewModel
     @State private var childName = "Barnet"
+    @State private var childUserId = ""
     
     init(authViewModel: AuthViewModel) {
         self.authViewModel = authViewModel
@@ -22,7 +25,7 @@ struct AdminView: View {
             AppBackground {
                 VStack(spacing: 24) {
                     
-                    Text("Admin Vy")
+                    Text("Välkommen \(authViewModel.currentProfile?.displayName ?? "")")
                         .font(.largeTitle)
                         .fontWeight(.bold)
                     
@@ -109,7 +112,7 @@ struct AdminView: View {
                             
                             NavigationLink {
                                 
-                                WeeklySummaryView(userId: "testUser")
+                                WeeklySummaryView(userId: childUserId)
                                 
                             } label: {
                                 
@@ -154,10 +157,11 @@ struct AdminView: View {
             .onAppear {
                 choreViewModel.fetchChores()
 
-                FirestoreService().getChildUser { child in
+                service.getChildUser { child in
 
                     DispatchQueue.main.async {
                         childName = child?.displayName ?? "Barnet"
+                        childUserId = child?.uid ?? ""
                     }
                 }
             }
