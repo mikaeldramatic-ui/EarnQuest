@@ -14,44 +14,82 @@ struct CompletedChoresView: View {
     
     private let service = FirestoreService()
     
+    private var groupedCompletions: [String: [Completion]] {
+        
+        Dictionary(grouping: completions) { completion in
+            
+            let formatter = DateFormatter()
+            formatter.dateStyle = .medium
+            
+            return formatter.string(from: completion.date)
+        }
+    }
+    
     var body: some View {
         
         NavigationStack {
             AppBackground {
                 VStack(spacing: 24) {
-                    
                     Text("Klara sysslor")
                         .font(.largeTitle)
                         .fontWeight(.bold)
                     
                     ScrollView {
                         VStack(spacing: 16) {
-                            ForEach(completions) {completion in
-                                
-                                DashboardCard(
-                                    backgroundColor: AppColors.infoCard
-                                ) {
-                                    HStack {
-                                        
+                            ForEach(
+                                groupedCompletions.keys.sorted(by: >),
+                                id: \.self
+                            ) { dateKey in
+                                if let completionsForDay = groupedCompletions[dateKey] {
+                                    
+                                    DashboardCard(
+                                        backgroundColor: AppColors.infoCard
+                                    ) {
                                         VStack(
                                             alignment: .leading,
-                                            spacing: 8
+                                            spacing: 16
                                         ) {
                                             
-                                            Text("Chore ID:")
-                                                .font(.caption)
-                                                .foregroundColor(.gray)
-                                            
-                                            Text(completion.choreId)
+                                            Text(dateKey)
                                                 .font(.headline)
+                                            
+                                            Divider()
+                                            
+                                            ForEach(completionsForDay) { completion in
+                                                
+                                                VStack(spacing: 12) {
+                                                    
+                                                    HStack {
+                                                        
+                                                        VStack(
+                                                            alignment: .leading,
+                                                            spacing: 4
+                                                        ) {
+                                                            
+                                                            Text(completion.title)
+                                                                .font(.headline)
+                                                            
+                                                            Text(
+                                                                "\(completion.dailyReward) kr"
+                                                            )
+                                                            .foregroundColor(.gray)
+                                                        }
+                                                        
+                                                        Spacer()
+                                                        
+                                                        Image(
+                                                            systemName: "checkmark.circle.fill"
+                                                        )
+                                                        .foregroundColor(.green)
+                                                        .font(.title2)
+                                                    }
+                                                    
+                                                    Divider()
+                                                }
+                                            }
                                         }
-                                        Spacer()
-                                        
-                                        Image(systemName: "checkmark.circle.fill")
-                                            .foregroundColor(.green)
-                                            .font(.title2)
+                                        .padding()
                                     }
-                                    .padding()
                                 }
                             }
                         }
