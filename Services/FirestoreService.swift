@@ -135,4 +135,34 @@ class FirestoreService {
             .document(choreId)
             .delete()
     }
+    
+    func getChildUser(
+        completion: @escaping (UserProfile?) -> Void
+    ) {
+        
+        db.collection("users")
+            .whereField("role", isEqualTo: "child")
+            .limit(to: 1)
+            .getDocuments { snapshot, error in
+                
+                guard
+                    let document = snapshot?.documents.first
+                else {
+                    completion(nil)
+                    return
+                }
+                
+                let data = document.data()
+                
+                let profile = UserProfile(
+                    uid: document.documentID,
+                    email: data["email"] as? String ?? "",
+                    displayName: data["displayName"] as? String ?? "",
+                    role: .child,
+                    familyId: data["familyId"] as? String ?? ""
+                )
+                
+                completion(profile)
+            }
+    }
 }

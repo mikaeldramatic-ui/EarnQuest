@@ -10,6 +10,17 @@ import SwiftUI
 struct ChildView: View {
     
     @ObservedObject var authViewModel: AuthViewModel
+    @StateObject private var choreViewModel: ChoreViewModel
+    
+    init(authViewModel: AuthViewModel) {
+        self.authViewModel = authViewModel
+        
+        _choreViewModel = StateObject(
+            wrappedValue: ChoreViewModel(
+                userId: authViewModel.currentProfile?.uid ?? ""
+            )
+        )
+    }
     
     var body: some View {
         
@@ -17,7 +28,7 @@ struct ChildView: View {
             AppBackground {
                 VStack(spacing: 24) {
                     
-                    Text("Barn Vy")
+                    Text("Välkommen \(authViewModel.currentProfile?.displayName ?? "")")
                         .font(.largeTitle)
                         .fontWeight(.bold)
                     
@@ -30,16 +41,46 @@ struct ChildView: View {
                             
                             VStack(alignment: .leading, spacing: 12) {
                                 
-                                Text("Barns pågående sysslor")
+                                if choreViewModel.visibleChores.isEmpty {
+                                    
+                                    Text(
+                                        "\(authViewModel.currentProfile?.displayName ?? "Barn") har inga pågående sysslor"
+                                    )
                                     .font(.headline)
-                                
+                                    
+                                } else {
+                                    Text(
+                                        "\(authViewModel.currentProfile?.displayName ?? "Barn") har pågående sysslor"
+                                    )
+                                    .font(.headline)
+                                }
+                
                                 Divider()
                                 
-                                Text("2 sysslor väntar")
+                                if choreViewModel.visibleChores.isEmpty {
+                                    
+                                    Text("Inga nya sysslor")
+                                        .font(.title3)
+                                        .fontWeight(.medium)
+                                        .foregroundColor(.gray)
+                                } else {
+                                    
+                                    Text("\(choreViewModel.visibleChores.count) nya väntar")
+                                        .font(.title3)
+                                        .fontWeight(.medium)
+                                }
                                 
-                                Text("Senaste aktivitet: Städat badrum")
-                                    .font(.caption)
-                                    .foregroundColor(.gray)
+                                if let latestChore = choreViewModel.visibleChores.first {
+
+                                    Text("Senaste syssla: \(latestChore.title)")
+                                        .font(.caption)
+                                        .foregroundColor(.gray)
+
+                                } else {
+                                    Text("Inga nya aktiviteter")
+                                        .font(.caption)
+                                        .foregroundColor(.gray)
+                                }
                             }
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding()
@@ -112,6 +153,10 @@ struct ChildView: View {
                 }
                 .padding(.horizontal)
                 .padding(.top, 40)
+                
+                .onAppear {
+                    choreViewModel.fetchChores()
+                }
             }
         }
     }
