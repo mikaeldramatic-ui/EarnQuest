@@ -42,7 +42,7 @@ struct ChildView: View {
                     
                     HStack(spacing: 16) {
                         NavigationLink {
-                            ChoreListView(authViewModel: authViewModel)
+                            CompletedChoresView(authViewModel: authViewModel)
                         } label: {
                             DashboardCard(
                                 backgroundColor: AppColors.actionCard

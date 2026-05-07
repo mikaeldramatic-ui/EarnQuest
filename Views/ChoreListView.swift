@@ -12,6 +12,10 @@ struct ChoreListView: View {
     @ObservedObject var authViewModel: AuthViewModel
     @StateObject private var viewModel: ChoreViewModel
     
+    private var isChild: Bool {
+        authViewModel.currentProfile?.role == .child
+    }
+    
     init(authViewModel: AuthViewModel) {
         self.authViewModel = authViewModel
         
@@ -51,17 +55,19 @@ struct ChoreListView: View {
                                 
                                 Spacer()
                                 
-                                Button {
-                                    viewModel.submitChores()
-                                    
-                                } label: {
-                                    
-                                    Text("Klart")
-                                        .padding(.horizontal, 18)
-                                        .padding(.vertical, 10)
-                                        .background(Color.white)
-                                        .foregroundColor(.black)
-                                        .cornerRadius(20)
+                                if isChild {
+                                    Button {
+                                        viewModel.submitChores()
+                                        
+                                    } label: {
+                                        
+                                        Text("Klart")
+                                            .padding(.horizontal, 18)
+                                            .padding(.vertical, 10)
+                                            .background(Color.white)
+                                            .foregroundColor(.black)
+                                            .cornerRadius(20)
+                                    }
                                 }
                             }
                             
@@ -105,14 +111,22 @@ struct ChoreListView: View {
                                                     )
                                                     .font(.title2)
                                                     .foregroundColor(
+                                                        isChild
+                                                        ? (
                                                         viewModel.selectedChoreIDs.contains(chore.id)
                                                         ? .green
                                                         : .gray
                                                     )
+                                                        : .gray
+                                                        
+                                                    )
                                                     .onTapGesture {
-                                                        viewModel.toogleChore(
-                                                            chore: chore
-                                                        )
+                                                        
+                                                        if isChild {
+                                                            viewModel.toogleChore(
+                                                                chore: chore
+                                                            )
+                                                        }
                                                     }
                                                 }
                                                 
