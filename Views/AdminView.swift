@@ -28,6 +28,7 @@ struct AdminView: View {
                     Text("Välkommen \(authViewModel.currentProfile?.displayName ?? "")")
                         .font(.largeTitle)
                         .fontWeight(.bold)
+                        .foregroundColor(.white)
                     
                     NavigationLink {
                         

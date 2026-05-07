@@ -65,9 +65,20 @@ final class ChoreViewModel: ObservableObject {
             )
         }
         
+        
+        
         chores.removeAll { chore in
             selectedChoreIDs.contains(chore.id)
         }
+        
+#if targetEnvironment(simulator)
+
+NotificationManager.shared.scheduleNow(
+    title: "Chores klara",
+    body: "Barnet har slutfört \(selectedChoreIDs.count) syssla/sysslor."
+)
+
+#endif
         
         selectedChoreIDs.removeAll()
     }
