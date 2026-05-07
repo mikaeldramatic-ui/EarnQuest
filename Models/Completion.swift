@@ -9,6 +9,8 @@ import Foundation
 
 struct Completion: Identifiable {
     var id: String
+    var title: String
+    var dailyReward: Int
     var choreId: String
     var userId: String
     var date: Date

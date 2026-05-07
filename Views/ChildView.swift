@@ -21,24 +21,31 @@ struct ChildView: View {
                         .font(.largeTitle)
                         .fontWeight(.bold)
                     
-                    DashboardCard(backgroundColor: AppColors.infoCard) {
+                    NavigationLink {
                         
-                        VStack(alignment: .leading, spacing: 12) {
+                        ChoreListView(authViewModel: authViewModel)
+                    } label: {
+                        
+                        DashboardCard(backgroundColor: AppColors.infoCard) {
                             
-                            Text("Barns pågående sysslor")
-                                .font(.headline)
-                            
-                            Divider()
-                            
-                            Text("2 sysslor väntar")
-                            
-                            Text("Senaste aktivitet: Städat badrum")
-                                .font(.caption)
-                                .foregroundColor(.gray)
+                            VStack(alignment: .leading, spacing: 12) {
+                                
+                                Text("Barns pågående sysslor")
+                                    .font(.headline)
+                                
+                                Divider()
+                                
+                                Text("2 sysslor väntar")
+                                
+                                Text("Senaste aktivitet: Städat badrum")
+                                    .font(.caption)
+                                    .foregroundColor(.gray)
+                            }
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding()
                         }
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding()
                     }
+                    .foregroundColor(.black)
                     
                     HStack(spacing: 16) {
                         NavigationLink {
@@ -118,15 +125,15 @@ struct ChildView: View {
         let viewModel = AuthViewModel()
         
         viewModel.currentProfile = UserProfile(
-            uid: "previewAdmin",
+            uid: "previewChild",
             email: "admin@example.com",
-            displayName: "Admin",
-            role: .admin,
+            displayName: "Child",
+            role: .child,
             familyId: "family_1"
         )
         
         return viewModel
     }()
     
-    return AdminView(authViewModel: authViewModel)
+    return ChildView(authViewModel: authViewModel)
 }

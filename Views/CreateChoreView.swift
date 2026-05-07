@@ -151,10 +151,19 @@ struct CreateChoreView: View {
                     
                     Spacer()
                     
-                    Button("Logga ut") {
+                    Button {
+                        
                         authViewModel.signOut()
+                        
+                    } label: {
+                        
+                        Text("Logga ut")
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(AppColors.logout)
+                            .foregroundColor(.white)
+                            .cornerRadius(12)
                     }
-                    .foregroundColor(.red)
                 }
                 .padding(.horizontal)
                 .padding(.top, 40)

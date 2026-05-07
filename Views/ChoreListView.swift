@@ -141,11 +141,12 @@ struct ChoreListView: View {
                                 .cornerRadius(24)
                                 .padding()
                             }
-                            .frame(height: 500)
+                            .frame(maxHeight: 450)
                         }
                         .padding()
                     }
-                    .frame(height: 650)
+                    
+                    Spacer(minLength: 0)
                     
                     Button {
                         authViewModel.signOut()
@@ -164,9 +165,7 @@ struct ChoreListView: View {
                 .padding(.top, 30)
             }
             .onAppear {
-                if viewModel.chores.isEmpty {
-                    viewModel.fetchChores()
-                }
+                viewModel.fetchChores()
             }
         }
     }

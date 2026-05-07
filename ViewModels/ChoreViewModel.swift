@@ -17,21 +17,31 @@ final class ChoreViewModel: ObservableObject {
     @Published var chores: [Chore] = []
     @Published var completedToday: Set<String> = []
     @Published var selectedChoreIDs: Set<String> = []
-
+    
     private let service = FirestoreService()
-
+    
     var visibleChores: [Chore] {
         chores.filter { !completedToday.contains($0.id) }
     }
-
+    
     func fetchChores(completion: (() -> Void)? = nil) {
         service.getChores { chores in
-                DispatchQueue.main.async {
-                    self.chores = chores
-                    completion?()
+            DispatchQueue.main.async {
+                self.chores = chores
+                
+                self.service.getCompletedChoreIDs(
+                    userId: self.userId
+                ) { completedIDs in
+                    
+                    DispatchQueue.main.async {
+                        self.completedToday = completedIDs
+                        
+                        completion?()
+                    }
                 }
             }
         }
+    }
     
     func toogleChore(chore: Chore) {
         if selectedChoreIDs.contains(chore.id) {
@@ -42,9 +52,24 @@ final class ChoreViewModel: ObservableObject {
     }
     
     func submitChores() {
-        completedToday.formUnion(selectedChoreIDs)
-        selectedChoreIDs.removeAll()
         
+        for chore in chores where selectedChoreIDs.contains(chore.id) {
+            
+            service.saveCompletion(
+                chore: chore,
+                userId: userId
+            )
+            
+            service.deleteChore(
+                choreId: chore.id
+            )
+        }
+        
+        chores.removeAll { chore in
+            selectedChoreIDs.contains(chore.id)
+        }
+        
+        selectedChoreIDs.removeAll()
     }
 }
 

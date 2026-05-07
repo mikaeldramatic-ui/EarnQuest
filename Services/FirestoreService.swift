@@ -45,9 +45,11 @@ class FirestoreService {
         db.collection("chores").addDocument(data: data)
     }
     
-    func saveCompletion(choreId: String, userId: String) {
+    func saveCompletion(chore: Chore, userId: String) {
         let data: [String: Any] = [
-            "choreId": choreId,
+            "choreId": chore.id,
+            "title": chore.title,
+            "dailyReward": chore.dailyReward,
             "userId": userId,
             "date": Date()
         ]
@@ -102,6 +104,8 @@ class FirestoreService {
             
                 guard
                     let choreId = data ["choreId"] as? String,
+                    let title = data["title"] as? String,
+                    let dailyReward = data["dailyReward"] as? Int,
                     let userId = data["userId"] as? String,
                     let timestamp = data["date"] as? Timestamp
                 else {
@@ -109,14 +113,26 @@ class FirestoreService {
                 }
                 
                 return Completion(
+
                     id: doc.documentID,
+                    title: title,
+                    dailyReward: dailyReward,
                     choreId: choreId,
                     userId: userId,
                     date: timestamp.dateValue()
+
                 )
             }
             
             completion(completions)
         }
+    }
+    
+    
+    func deleteChore(choreId: String) {
+        
+        db.collection("chores")
+            .document(choreId)
+            .delete()
     }
 }
