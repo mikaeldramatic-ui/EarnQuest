@@ -74,72 +74,106 @@ struct ChoreListView: View {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 20)
                                     .fill(AppColors.infoCard)
-                                ScrollView {
-                                    VStack(spacing: 12) {
+                                
+                                if viewModel.visibleChores.isEmpty {
+                                    
+                                    VStack(spacing: 16) {
+                                        Image(systemName: "checkmark.seal.fill")
+                                            .font(.system(size: 60))
+                                            .foregroundColor(.green)
                                         
-                                        ForEach(
-                                            viewModel.visibleChores,
-                                            id: \.id
-                                        ) { chore in
-                                            
+                                        Text("Alla sysslor är klara!")
+                                            .font(.title3)
+                                            .fontWeight(.medium)
+                                        
+                                        Text("Bra jobbat 🎉")
+                                            .foregroundColor(.gray)
+                                    }
+                                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                    
+                                } else {
+                                    
+                                    VStack(spacing: 16) {
+                                        
+                                        ScrollView {
                                             VStack(spacing: 12) {
                                                 
-                                                HStack {
+                                                ForEach(
+                                                    viewModel.visibleChores,
+                                                    id: \.id
+                                                ) { chore in
                                                     
-                                                    VStack(
-                                                        alignment: .leading,
-                                                        spacing: 4
-                                                    ) {
+                                                    VStack(spacing: 12) {
                                                         
-                                                        Text(chore.title)
-                                                            .font(.headline)
-                                                        
-                                                        Text(
-                                                            "\(chore.dailyReward) kr"
-                                                        )
-                                                        .foregroundColor(.gray)
-                                                    }
-                                                    
-                                                    Spacer()
-                                                    
-                                                    
-                                                    Image(
-                                                        systemName:
-                                                            viewModel.selectedChoreIDs.contains(chore.id)
-                                                        ? "checkmark.circle.fill"
-                                                        : "circle"
-                                                    )
-                                                    .font(.title2)
-                                                    .foregroundColor(
-                                                        isChild
-                                                        ? (
-                                                        viewModel.selectedChoreIDs.contains(chore.id)
-                                                        ? .green
-                                                        : .gray
-                                                    )
-                                                        : .gray
-                                                        
-                                                    )
-                                                    .onTapGesture {
-                                                        
-                                                        if isChild {
-                                                            viewModel.toogleChore(
-                                                                chore: chore
+                                                        HStack {
+                                                            
+                                                            VStack(
+                                                                alignment: .leading,
+                                                                spacing: 4
+                                                            ) {
+                                                                
+                                                                Text(chore.title)
+                                                                    .font(.headline)
+                                                                
+                                                                Text("\(chore.dailyReward) kr")
+                                                                    .foregroundColor(.gray)
+                                                            }
+                                                            
+                                                            Spacer()
+                                                            
+                                                            Image(
+                                                                systemName:
+                                                                    viewModel.selectedChoreIDs.contains(chore.id)
+                                                                ? "checkmark.circle.fill"
+                                                                : "circle"
                                                             )
+                                                            .font(.title2)
+                                                            .foregroundColor(
+                                                                isChild
+                                                                ? (
+                                                                    viewModel.selectedChoreIDs.contains(chore.id)
+                                                                    ? .green
+                                                                    : .gray
+                                                                )
+                                                                : .gray
+                                                            )
+                                                            .onTapGesture {
+                                                                
+                                                                if isChild {
+                                                                    viewModel.toogleChore(
+                                                                        chore: chore
+                                                                    )
+                                                                }
+                                                            }
                                                         }
+                                                        
+                                                        Divider()
                                                     }
                                                 }
-                                                
-                                                
-                                                Divider()
                                             }
+                                            .padding()
                                         }
+                                        .background(Color.white)
+                                        .cornerRadius(24)
+                                        
+                                        Divider()
+                                        
+                                        HStack {
+                                            
+                                            Text("Totalt:")
+                                                .fontWeight(.bold)
+                                            
+                                            Spacer()
+                                            
+                                            Text(
+                                                "\(viewModel.visibleChores.reduce(0) { $0 + $1.dailyReward }) kr"
+                                            )
+                                            .fontWeight(.bold)
+                                        }
+                                        .padding(.horizontal)
                                     }
                                     .padding()
                                 }
-                                .background(Color.white)
-                                .cornerRadius(24)
-                                .padding()
                             }
                             .frame(maxHeight: 450)
                         }
