@@ -31,7 +31,7 @@ struct WeeklySummaryView: View {
                     Text("Veckostatistik")
                         .font(.largeTitle)
                         .fontWeight(.bold)
-    
+                    
                     DashboardCard(backgroundColor: AppColors.infoCard) {
                         VStack(spacing: 16) {
                             
@@ -47,7 +47,7 @@ struct WeeklySummaryView: View {
                         }
                         .padding()
                     }
-
+                    
                     DashboardCard(backgroundColor: AppColors.infoCard2) {
                         
                         VStack(spacing: 16) {
@@ -76,12 +76,12 @@ struct WeeklySummaryView: View {
                     
                     DashboardCard(backgroundColor: AppColors.actionCard) {
                         VStack(alignment: .leading, spacing: 16) {
-
+                            
                             Text("Veckoöversikt")
                                 .font(.headline)
                             
                             Chart(viewModel.weeklyChartData) { item in
-                            
+                                
                                 BarMark(
                                     x: .value("Dag", item.day),
                                     y: .value("Kr", item.amount)
@@ -110,7 +110,7 @@ struct WeeklySummaryView: View {
             }
         }
     }
-    }
+}
 
 #Preview {
     WeeklySummaryView(userId: "previewUser")

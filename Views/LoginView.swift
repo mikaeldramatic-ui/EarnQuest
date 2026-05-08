@@ -54,23 +54,23 @@ struct LoginView: View {
                         .padding()
                     }
                     Spacer()
-                        
-                        DashboardCard(backgroundColor: AppColors.infoCard2) {
-                            VStack(spacing: 8) {
-                                Text("Har du inget konto?")
-                                NavigationLink("Skapa konto") {
-                                    SignUpView(authViewModel: authViewModel)
-                                }
-                                .foregroundColor(.black)
+                    
+                    DashboardCard(backgroundColor: AppColors.infoCard2) {
+                        VStack(spacing: 8) {
+                            Text("Har du inget konto?")
+                            NavigationLink("Skapa konto") {
+                                SignUpView(authViewModel: authViewModel)
                             }
-                            .padding()
+                            .foregroundColor(.black)
                         }
-                        
+                        .padding()
                     }
+                    
                 }
             }
         }
     }
+}
 
 #Preview {
     let authViewModel = AuthViewModel()

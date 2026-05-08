@@ -9,9 +9,11 @@ import Combine
 
 final class ChoreViewModel: ObservableObject {
     private let userId: String
+    private let userName: String
     
-    init (userId: String) {
+    init (userId: String, userName: String = "Barnet") {
         self.userId = userId
+        self.userName = userName
     }
     
     @Published var chores: [Chore] = []
@@ -72,12 +74,12 @@ final class ChoreViewModel: ObservableObject {
         }
         
 #if targetEnvironment(simulator)
-
-NotificationManager.shared.scheduleNow(
-    title: "Chores klara",
-    body: "Barnet har slutfört \(selectedChoreIDs.count) syssla/sysslor."
-)
-
+        
+        NotificationManager.shared.scheduleNow(
+            title: "Sysslor klara",
+            body: "\(userName) har slutfört \(selectedChoreIDs.count) syssla/sysslor."
+        )
+        
 #endif
         
         selectedChoreIDs.removeAll()

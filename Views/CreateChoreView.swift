@@ -10,6 +10,7 @@ struct CreateChoreView: View {
     
     @State private var title = ""
     @State private var dailyReward = ""
+    @State private var childName = "Barnet"
     
     var body: some View {
         
@@ -83,22 +84,40 @@ struct CreateChoreView: View {
                             } else {
                                 
                                 ForEach(draftChores.indices, id: \.self) { index in
-                                    
                                     HStack {
-                                        
-                                        Text(draftChores[index].title)
+                                        VStack(alignment: .leading, spacing: 4) {
+                                            Text(draftChores[index].title)
+                                                .fontWeight(.medium)
+                                            
+                                            Text("\(draftChores[index].reward) kr")
+                                                .foregroundColor(.gray)
+                                        }
                                         
                                         Spacer()
                                         
-                                        Text("\(draftChores[index].reward) kr")
+                                        Button {
+                                            
+                                            draftChores.remove(at: index)
+                                            
+                                            
+                                            
+                                        } label: {
+                                            
+                                            
+                                            
+                                            Image(systemName: "trash.fill")
+                                            
+                                                .foregroundColor(.red)
+                                            
+                                        }
+                                        
                                     }
+                                    
+                                    
+                                    
+                                    Divider()
+                                    
                                 }
-                                .onDelete { indexSet in
-                                    draftChores.remove(atOffsets: indexSet)
-                                }
-                                
-                                
-                                Divider()
                                 
                                 
                                 HStack {
@@ -131,7 +150,7 @@ struct CreateChoreView: View {
 #if targetEnvironment(simulator)
                         NotificationManager.shared.scheduleNow(
                             title: "Nya sysslor",
-                            body: "Du har fått \(draftChores.count) nya sysslor."
+                            body: "\(childName) har fått \(draftChores.count) nya sysslor."
                         )
 #endif
                         
@@ -150,23 +169,18 @@ struct CreateChoreView: View {
                     
                     
                     Spacer()
-                    
-                    Button {
-                        
-                        authViewModel.signOut()
-                        
-                    } label: {
-                        
-                        Text("Logga ut")
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(AppColors.logout)
-                            .foregroundColor(.white)
-                            .cornerRadius(12)
-                    }
                 }
                 .padding(.horizontal)
                 .padding(.top, 40)
+                
+                .onAppear {
+                    service.getChildUser {child in
+                    
+                        DispatchQueue.main.async {
+                            childName = child?.displayName ?? "Barnet"
+                        }
+                    }
+                }
             }
         }
     }

@@ -55,7 +55,7 @@ struct ChildView: View {
                                     )
                                     .font(.headline)
                                 }
-                
+                                
                                 Divider()
                                 
                                 if choreViewModel.visibleChores.isEmpty {
@@ -72,11 +72,11 @@ struct ChildView: View {
                                 }
                                 
                                 if let latestChore = choreViewModel.visibleChores.first {
-
+                                    
                                     Text("Senaste syssla: \(latestChore.title)")
                                         .font(.caption)
                                         .foregroundColor(.gray)
-
+                                    
                                 } else {
                                     Text("Inga nya aktiviteter")
                                         .font(.caption)

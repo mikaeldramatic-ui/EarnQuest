@@ -21,7 +21,8 @@ struct ChoreListView: View {
         
         _viewModel = StateObject(
             wrappedValue: ChoreViewModel(
-                userId: authViewModel.currentProfile?.uid ?? ""
+                userId: authViewModel.currentProfile?.uid ?? "",
+                userName: authViewModel.currentProfile?.displayName ?? "Barnet"
             )
         )
     }
@@ -36,7 +37,7 @@ struct ChoreListView: View {
         NavigationStack {
             AppBackground {
                 VStack(spacing: 24) {
-
+                    
                     Text("Pågående sysslor")
                         .font(.largeTitle)
                         .fontWeight(.bold)
@@ -49,13 +50,9 @@ struct ChoreListView: View {
                         VStack(spacing: 24) {
                             HStack {
                                 
-                                Text("Sysslor")
-                                    .font(.title2)
-                                    .fontWeight(.medium)
-                                
                                 Spacer()
                                 
-                                if isChild {
+                                if isChild && !viewModel.visibleChores.isEmpty {
                                     Button {
                                         viewModel.submitChores()
                                         
@@ -179,21 +176,7 @@ struct ChoreListView: View {
                         }
                         .padding()
                     }
-                    
-                    Spacer(minLength: 0)
-                    
-                    Button {
-                        authViewModel.signOut()
-                        
-                    } label: {
-                        
-                        Text("Logga ut")
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(AppColors.logout)
-                            .foregroundColor(.white)
-                            .cornerRadius(12)
-                    }
+                    Spacer()
                 }
                 .padding(.horizontal)
                 .padding(.top, 30)
@@ -207,9 +190,9 @@ struct ChoreListView: View {
 
 
 #Preview {
-
+    
     let authViewModel = AuthViewModel()
-
+    
     authViewModel.currentProfile = UserProfile(
         uid: "previewUser",
         email: "child@example.com",
@@ -217,7 +200,7 @@ struct ChoreListView: View {
         role: .child,
         familyId: "family_1"
     )
-
+    
     return ChoreListView(
         authViewModel: authViewModel,
         viewModel: {

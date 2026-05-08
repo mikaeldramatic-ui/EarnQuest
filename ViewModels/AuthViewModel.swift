@@ -33,7 +33,7 @@ class AuthViewModel: ObservableObject {
                     self.errorMessage = "Kunde inte hämta användaren."
                     return
                 }
-
+                
                 self.currentUser = user
                 self.fetchUserProfile(uid: user.uid)
             }
@@ -87,7 +87,7 @@ class AuthViewModel: ObservableObject {
                 
                 self.currentProfile = profile
                 NotificationManager.shared.requestAuthorization { granted in
-                print("Notifieringar beviljade efter att ha loggats in \(granted)") }
+                    print("Notifieringar beviljade efter att ha loggats in \(granted)") }
             }
         }
     }

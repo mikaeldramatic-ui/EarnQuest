@@ -54,7 +54,7 @@ struct SignUpView: View {
                             SecureField("Bekräfta lösenord", text: $confirmPassword)
                                 .textFieldStyle(RoundedBorderTextFieldStyle())
                             
-                
+                            
                             VStack(alignment: .leading, spacing: 12) {
                                 
                                 Text("Välj roll")

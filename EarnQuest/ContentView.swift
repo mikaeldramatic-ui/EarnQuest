@@ -36,9 +36,6 @@ struct ContentView: View {
             }
             .navigationTitle("Chores")
             .toolbar {
-                Button("Klar") {
-                    viewModel.submitChores()
-                }
             }
             .onAppear {
                 if viewModel.chores.isEmpty {

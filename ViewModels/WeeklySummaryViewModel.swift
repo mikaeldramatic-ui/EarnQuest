@@ -22,7 +22,7 @@ final class WeeklySummaryViewModel : ObservableObject {
     
     func fetchWeeklyEarnings(chores: [Chore]) {
         service.getCompletions(userId: userId) { completions in
-        
+            
             let calendar = Calendar.current
             let today = Date()
             
@@ -39,7 +39,7 @@ final class WeeklySummaryViewModel : ObservableObject {
             }
             
             var total = 0
-
+            
             for completion in filteredCompletions {
                 total += completion.dailyReward
             }
@@ -92,32 +92,32 @@ final class WeeklySummaryViewModel : ObservableObject {
         }
         
     }
+    
+    func generateChartData(completions: [Completion]) {
+        let calendar = Calendar.current
+        let grouped = Dictionary(grouping: completions) {
+            calendar.startOfDay(for: $0.date)
+        }
         
-        func generateChartData(completions: [Completion]) {
-            let calendar = Calendar.current
-            let grouped = Dictionary(grouping: completions) {
-                calendar.startOfDay(for: $0.date)
-            }
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "sv_SE")
+        formatter.dateFormat = "EEE"
+        
+        let chartData = grouped.map { date, completions in
             
-            let formatter = DateFormatter()
-            formatter.locale = Locale(identifier: "sv_SE")
-            formatter.dateFormat = "EEE"
-            
-            let chartData = grouped.map { date, completions in
-                
-                DailyEarning(
-                    day: formatter.string(from: date),
-                    amount: completions.reduce(0) {
-                        $0 + $1.dailyReward
-                    }
-                )
-            }
+            DailyEarning(
+                day: formatter.string(from: date),
+                amount: completions.reduce(0) {
+                    $0 + $1.dailyReward
+                }
+            )
+        }
             .sorted { $0.day < $1.day }
-            
-            DispatchQueue.main.async {
-                self.weeklyChartData = chartData
-            }
+        
+        DispatchQueue.main.async {
+            self.weeklyChartData = chartData
         }
     }
+}
 
 

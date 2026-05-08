@@ -55,13 +55,13 @@ struct AdminView: View {
                                         .font(.title3)
                                         .fontWeight(.medium)
                                         .foregroundColor(.gray)
-
+                                    
                                 } else if choreViewModel.visibleChores.count == 1 {
                                     
                                     Text("1 ny syssla")
                                         .font(.title3)
                                         .fontWeight(.medium)
-
+                                    
                                 } else {
                                     
                                     Text("\(choreViewModel.visibleChores.count) nya sysslor")
@@ -70,96 +70,96 @@ struct AdminView: View {
                                 }
                                 
                                 if let latestChore = choreViewModel.visibleChores.first {
-
-                                                Text("Senaste syssla: \(latestChore.title)")
-                                                    .font(.caption)
-                                                    .foregroundColor(.gray)
-
-                                            } else {
-
-                                                Text("Inga nya aktiviteter")
-                                                    .font(.caption)
-                                                    .foregroundColor(.gray)
-                                            }
-                                        }
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                        .padding()
-                                    }
-                                }
-                                .foregroundColor(.black)
-                        
-                        HStack(spacing: 16) {
-                            NavigationLink {
-                                
-                                CreateChoreView(authViewModel: authViewModel)
-                            } label: {
-                                DashboardCard(
-                                    backgroundColor: AppColors.actionCard
-                                ) {
                                     
-                                    VStack(spacing: 12) {
-                                        
-                                        Image(systemName: "square.and.pencil")
-                                            .font(.largeTitle)
-                                        
-                                        Text("Skapa sysslor")
-                                            .fontWeight(.medium)
-                                    }
-                                    .frame(maxWidth: .infinity)
-                                    .frame(height: 140)
+                                    Text("Senaste syssla: \(latestChore.title)")
+                                        .font(.caption)
+                                        .foregroundColor(.gray)
+                                    
+                                } else {
+                                    
+                                    Text("Inga nya aktiviteter")
+                                        .font(.caption)
+                                        .foregroundColor(.gray)
                                 }
                             }
-                            .foregroundColor(.black)
-                            
-                            NavigationLink {
-                                
-                                WeeklySummaryView(userId: childUserId)
-                                
-                            } label: {
-                                
-                                DashboardCard(
-                                    backgroundColor: AppColors.infoCard2
-                                ) {
-                                    
-                                    VStack(spacing: 12) {
-                                        
-                                        Image(systemName: "chart.bar.fill")
-                                            .font(.largeTitle)
-                                        
-                                        Text("Statistik")
-                                            .fontWeight(.medium)
-                                    }
-                                    .frame(maxWidth: .infinity)
-                                    .frame(height: 140)
-                                }
-                            }
-                            .foregroundColor(.black)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding()
                         }
+                    }
+                    .foregroundColor(.black)
+                    
+                    HStack(spacing: 16) {
+                        NavigationLink {
+                            
+                            CreateChoreView(authViewModel: authViewModel)
+                        } label: {
+                            DashboardCard(
+                                backgroundColor: AppColors.actionCard
+                            ) {
+                                
+                                VStack(spacing: 12) {
+                                    
+                                    Image(systemName: "square.and.pencil")
+                                        .font(.largeTitle)
+                                    
+                                    Text("Skapa sysslor")
+                                        .fontWeight(.medium)
+                                }
+                                .frame(maxWidth: .infinity)
+                                .frame(height: 140)
+                            }
+                        }
+                        .foregroundColor(.black)
                         
-                        
-                        Spacer()
-                        
-                        Button {
-                            authViewModel.signOut()
+                        NavigationLink {
+                            
+                            WeeklySummaryView(userId: childUserId)
                             
                         } label: {
                             
-                            Text("Logga ut")
+                            DashboardCard(
+                                backgroundColor: AppColors.infoCard2
+                            ) {
+                                
+                                VStack(spacing: 12) {
+                                    
+                                    Image(systemName: "chart.bar.fill")
+                                        .font(.largeTitle)
+                                    
+                                    Text("Statistik")
+                                        .fontWeight(.medium)
+                                }
                                 .frame(maxWidth: .infinity)
-                                .padding()
-                                .background(AppColors.logout)
-                                .foregroundColor(.white)
-                                .cornerRadius(12)
+                                .frame(height: 140)
+                            }
                         }
+                        .foregroundColor(.black)
                     }
-                    .padding(.horizontal)
-                    .padding(.top, 40)
+                    
+                    
+                    Spacer()
+                    
+                    Button {
+                        authViewModel.signOut()
+                        
+                    } label: {
+                        
+                        Text("Logga ut")
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(AppColors.logout)
+                            .foregroundColor(.white)
+                            .cornerRadius(12)
+                    }
                 }
+                .padding(.horizontal)
+                .padding(.top, 40)
+            }
             .onAppear {
                 choreViewModel.fetchChores()
-
+                
                 service.getChildUser { child in
-
+                    
                     DispatchQueue.main.async {
                         childName = child?.displayName ?? "Barnet"
                         childUserId = child?.uid ?? ""
@@ -170,24 +170,24 @@ struct AdminView: View {
     }
 }
 
-    #Preview {
-        
-        let authViewModel: AuthViewModel = {
-            
-            let viewModel = AuthViewModel()
-            
-            viewModel.currentProfile = UserProfile(
-                uid: "previewAdmin",
-                email: "admin@example.com",
-                displayName: "Admin",
-                role: .admin,
-                familyId: "family_1"
-            )
-            
-            return viewModel
-        }()
-        
-        return AdminView(authViewModel: authViewModel)
-    }
+#Preview {
     
+    let authViewModel: AuthViewModel = {
+        
+        let viewModel = AuthViewModel()
+        
+        viewModel.currentProfile = UserProfile(
+            uid: "previewAdmin",
+            email: "admin@example.com",
+            displayName: "Admin",
+            role: .admin,
+            familyId: "family_1"
+        )
+        
+        return viewModel
+    }()
+    
+    return AdminView(authViewModel: authViewModel)
+}
+
 
