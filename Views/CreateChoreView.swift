@@ -29,10 +29,10 @@ struct CreateChoreView: View {
                         
                         VStack(spacing: 16) {
                             
-                            TextField("Titel på syssla", text: $title)
+                            TextField("Titel på syssla:", text: $title)
                                 .textFieldStyle(RoundedBorderTextFieldStyle())
                             
-                            TextField("Daglig belöning", text: $dailyReward)
+                            TextField("Belöning i kr:", text: $dailyReward)
                                 .textFieldStyle(RoundedBorderTextFieldStyle())
                                 .keyboardType(.numberPad)
                             
